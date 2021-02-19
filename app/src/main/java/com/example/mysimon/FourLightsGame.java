@@ -14,6 +14,7 @@ public class FourLightsGame extends AppCompatActivity {
     private TextView stateDisplay;  /** This is the text view that tells the user what is happening **/
     private ImageView B1, B2, B3, B4;   /** quick names for the buttons **/
 
+    private ImageView[] imageViews; /** This will be all the buttons in a passable array **/
     private int[] correctSequence;  /** This will be the sequence that the game displays and expects from the player
                                         The first position [0] will be the level number **/
 
@@ -25,6 +26,12 @@ public class FourLightsGame extends AppCompatActivity {
 
         /** Initialize the array for later use **/
         correctSequence = new int[11];  /** Positions 1-10 for this game, position 0 is is the current level **/
+
+        imageViews = new ImageView[5];  /** Position 1-4 for my lights to blink and position 0 is not used **/
+        imageViews[1] = findViewById(R.id.gamebutton1);
+        imageViews[2] = findViewById(R.id.gamebutton2);
+        imageViews[3] = findViewById(R.id.gamebutton3);
+        imageViews[4] = findViewById(R.id.gamebutton4);
 
         /** Get the display textview for game mode instructions **/
          stateDisplay = findViewById(R.id.statetextView);
@@ -41,8 +48,15 @@ public class FourLightsGame extends AppCompatActivity {
         gameState = 0;
         stateDisplay.setText("Ready?");
 
+        /** Set the correct sequence **/
+        correctSequence[3] = 2;
+        correctSequence[1] = 1;
+        correctSequence[2] = 2;
+        correctSequence[3] = 3;
+        correctSequence[4] = 1;
 
-
+        ImageBlinker testBlinker = new ImageBlinker(1000,1000, correctSequence,imageViews);
+        //testBlinker.start();
     }
 
 
