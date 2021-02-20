@@ -19,9 +19,10 @@ public class ImageBlinker extends CountDownTimer {
      *                          is called.
      * @param countDownInterval The interval along the way to receive
      *                          {@link #onTick(long)} callbacks.
-     */
+     **/
     public ImageBlinker(long millisInFuture, long countDownInterval, int[] sequenceData, ImageView[] imagesArray) {
-        super(((millisInFuture * 2)*sequenceData[0]), countDownInterval);
+        //super(((millisInFuture * 2)*sequenceData[0]), countDownInterval);
+        super((millisInFuture * 2), countDownInterval);
         correctSequence = sequenceData;
         imagesToBlink = imagesArray;
         blinkTiming = false;    /** Set first blinking position **/
@@ -37,12 +38,12 @@ public class ImageBlinker extends CountDownTimer {
 
         if (blinkTiming) {
             /** turn off and set next **/
-            imagesToBlink[currentPosition].setImageResource(R.drawable.ic_plus_button);
+            imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_plus_button);
             currentPosition++;
 
         } else {
             /** turn on **/
-            imagesToBlink[currentPosition].setImageResource(R.drawable.ic_circle);
+            imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_circle);
         }
 
         blinkTiming = !blinkTiming; /** Flip boolean **/

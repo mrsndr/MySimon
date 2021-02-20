@@ -49,14 +49,16 @@ public class FourLightsGame extends AppCompatActivity {
         stateDisplay.setText("Ready?");
 
         /** Set the correct sequence **/
-        correctSequence[3] = 2;
+        correctSequence[0] = 3;
         correctSequence[1] = 1;
         correctSequence[2] = 2;
         correctSequence[3] = 3;
         correctSequence[4] = 1;
 
-        ImageBlinker testBlinker = new ImageBlinker(1000,1000, correctSequence,imageViews);
-        //testBlinker.start();
+        ImageBlinker testBlinker = new ImageBlinker((correctSequence[0] * 1000),1000, correctSequence,imageViews);
+        testBlinker.start();
+
+        stateDisplay.setText("Watch");
     }
 
 
