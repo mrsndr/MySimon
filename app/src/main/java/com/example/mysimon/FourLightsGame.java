@@ -3,6 +3,9 @@ package com.example.mysimon;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,13 +43,14 @@ public class FourLightsGame extends AppCompatActivity {
         setModeToReady();
 
 
+
     }
 
 
     private void setModeToReady () {
         /** Call this to reset for next round **/
         gameState = 0;
-        stateDisplay.setText("Ready?");
+        stateDisplay.setText("Tap to start");
 
         /** Set the correct sequence **/
         correctSequence[0] = 3;
@@ -55,12 +59,42 @@ public class FourLightsGame extends AppCompatActivity {
         correctSequence[3] = 3;
         correctSequence[4] = 1;
 
-        ImageBlinker testBlinker = new ImageBlinker((correctSequence[0] * 1000),1000, correctSequence,imageViews);
-        testBlinker.start();
-
-        stateDisplay.setText("Watch");
     }
 
+    //Ready to play
+
+
+
+    public void stateTextClick (View view) {
+
+        switch (gameState) {
+            case 0:
+                stateDisplay.setText("Watch");
+                //android.os.SystemClock.sleep(2000);    /** Wait for two seconds before running **/
+                //myDelayTimer shortWait = new myDelayTimer(2000,1000);
+                    //shortWait.start();
+                    //SystemClock.sleep(2000);
+                ImageBlinker testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
+                    testBlinker.begin();
+                //gameState = 1;
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+                /** Play Again **/
+                setModeToReady();
+
+                break;
+            default:
+
+        }
+
+
+    }
 
 
 

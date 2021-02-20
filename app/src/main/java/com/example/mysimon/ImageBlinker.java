@@ -22,12 +22,18 @@ public class ImageBlinker extends CountDownTimer {
      **/
     public ImageBlinker(long millisInFuture, long countDownInterval, int[] sequenceData, ImageView[] imagesArray) {
         //super(((millisInFuture * 2)*sequenceData[0]), countDownInterval);
-        super((millisInFuture * 2), countDownInterval);
+        super(millisInFuture, countDownInterval);
         correctSequence = sequenceData;
         imagesToBlink = imagesArray;
         blinkTiming = false;    /** Set first blinking position **/
-        currentPosition = 1;    /** Set first position in sequence **/
+        currentPosition = 0;    /** Set first position in sequence **/
     }
+
+    public void begin() {
+        //android.os.SystemClock.sleep(5000);    /** Wait for two seconds before running **/
+        start();
+    }
+
 
     @Override
     public void onTick(long millisUntilFinished) {
@@ -35,21 +41,30 @@ public class ImageBlinker extends CountDownTimer {
         //ImageView imageName = findViewById(R.id.gamebutton2);
 
 
-
-        if (blinkTiming) {
-            /** turn off and set next **/
-            imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_plus_button);
+        if (currentPosition == 0) {
             currentPosition++;
-
         } else {
-            /** turn on **/
-            imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_circle);
+            if (currentPosition <= correctSequence[0]) {
+
+                if (blinkTiming) {
+                    /** turn off and set next **/
+                    imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_plus_button);
+                    currentPosition++;
+
+                } else {
+                    /** turn on **/
+
+                    imagesToBlink[correctSequence[currentPosition]].setImageResource(R.drawable.ic_circle);
+                }
+
+                blinkTiming = !blinkTiming; /** Flip boolean **/
+            }
         }
 
-        blinkTiming = !blinkTiming; /** Flip boolean **/
 
 
     }
+
 
     @Override
     public void onFinish() {
