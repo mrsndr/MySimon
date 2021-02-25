@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FourLightsGame extends AppCompatActivity {
 
@@ -20,7 +21,9 @@ public class FourLightsGame extends AppCompatActivity {
     private ImageView[] imageViews; /** This will be all the buttons in a passable array **/
     private int[] correctSequence;  /** This will be the sequence that the game displays and expects from the player
                                         The first position [0] will be the level number **/
+    private String playerEntry;     /** This will record each button played by the player for each round **/
 
+    private ImageBlinker testBlinker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class FourLightsGame extends AppCompatActivity {
         correctSequence[3] = 3;
         correctSequence[4] = 1;
 
+        testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
     }
 
     //Ready to play
@@ -74,15 +78,15 @@ public class FourLightsGame extends AppCompatActivity {
                 //myDelayTimer shortWait = new myDelayTimer(2000,1000);
                     //shortWait.start();
                     //SystemClock.sleep(2000);
-                ImageBlinker testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
+                //ImageBlinker testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
                     testBlinker.begin();
-                //gameState = 1;
+                gameState = 2;  /** Set the game to state 2 for the player's turn **/
                 break;
             case 1:
-
+                /* In a future version maybe this will record all button presses until the round is over */
                 break;
             case 2:
-
+                /* Maybe for a reset button in game? */
                 break;
             case 3:
                 /** Play Again **/
@@ -96,6 +100,25 @@ public class FourLightsGame extends AppCompatActivity {
 
     }
 
+
+    public void button1Click (View view) {
+
+        if ((gameState == 2)) {
+            playerEntry += "1";
+            checkPlayerEntry();
+        }
+
+    }
+
+    private void checkPlayerEntry () {
+        /** After each play, the moves will be checked.
+         * If the user makes a mistake, the game ends.
+         * If the user completes the entry, the next sequence will be started.
+         * If all ten rounds are done correctly, they win. **/
+
+        Toast.makeText(getApplicationContext(), playerEntry,Toast.LENGTH_SHORT).show();
+
+    }
 
 
 

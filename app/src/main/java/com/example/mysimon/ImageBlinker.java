@@ -4,13 +4,12 @@ package com.example.mysimon;
 import android.os.CountDownTimer;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class ImageBlinker extends CountDownTimer {
     private ImageView[] imagesToBlink; /** Position 1-4 are the images and position 0 is not used **/
     private int[] correctSequence;  /** Positions 1-10 for this game, position 0 is is the current level **/
     private int currentPosition;    /** The active image to be blinking **/
     private boolean blinkTiming;    /** 0-Turn on 1-Turn off and next **/
+    private boolean playbackDone;       /** Can be checked to see if the blinking is done **/
 
 
     /**
@@ -31,6 +30,7 @@ public class ImageBlinker extends CountDownTimer {
 
     public void begin() {
         //android.os.SystemClock.sleep(5000);    /** Wait for two seconds before running **/
+        playbackDone = false;
         start();
     }
 
@@ -69,5 +69,8 @@ public class ImageBlinker extends CountDownTimer {
     @Override
     public void onFinish() {
         //myImage.setImageResource(R.drawable.ic_plus_button);
+        playbackDone = true;
     }
+
+
 }
