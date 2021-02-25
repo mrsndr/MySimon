@@ -3,8 +3,6 @@ package com.example.mysimon;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,9 +19,9 @@ public class FourLightsGame extends AppCompatActivity {
     private ImageView[] imageViews; /** This will be all the buttons in a passable array **/
     private int[] correctSequence;  /** This will be the sequence that the game displays and expects from the player
                                         The first position [0] will be the level number **/
-    private String playerEntry;     /** This will record each button played by the player for each round **/
+    private String playerEntry = "";     /** This will record each button played by the player for each round **/
 
-    private ImageBlinker testBlinker;
+    private ImageBlinker iconBlinker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +54,20 @@ public class FourLightsGame extends AppCompatActivity {
         stateDisplay.setText("Tap to start");
 
         /** Set the correct sequence **/
-        correctSequence[0] = 3;
+        correctSequence[0] = 2;
         correctSequence[1] = 1;
         correctSequence[2] = 2;
         correctSequence[3] = 3;
-        correctSequence[4] = 1;
+        correctSequence[4] = 4;
+        correctSequence[5] = 2;
+        correctSequence[6] = 3;
+        correctSequence[7] = 4;
+        correctSequence[8] = 2;
+        correctSequence[9] = 4;
+        correctSequence[10] = 3;
 
-        testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
+
+        iconBlinker = new ImageBlinker(((10 * 2000) + 2000),1000, correctSequence,imageViews);
     }
 
     //Ready to play
@@ -79,7 +84,10 @@ public class FourLightsGame extends AppCompatActivity {
                     //shortWait.start();
                     //SystemClock.sleep(2000);
                 //ImageBlinker testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
-                    testBlinker.begin();
+                correctSequence[0] = 6;
+
+                    iconBlinker.begin(correctSequence[0]);  /** sending a new round number through correctSequence[0] **/
+
                 gameState = 2;  /** Set the game to state 2 for the player's turn **/
                 break;
             case 1:
@@ -103,7 +111,7 @@ public class FourLightsGame extends AppCompatActivity {
 
     public void button1Click (View view) {
 
-        if ((gameState == 2)) {
+        if ((gameState == 2) && iconBlinker.isPlaybackDone()) {
             playerEntry += "1";
             checkPlayerEntry();
         }

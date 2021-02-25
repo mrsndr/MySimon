@@ -6,7 +6,8 @@ import android.widget.ImageView;
 
 public class ImageBlinker extends CountDownTimer {
     private ImageView[] imagesToBlink; /** Position 1-4 are the images and position 0 is not used **/
-    private int[] correctSequence;  /** Positions 1-10 for this game, position 0 is is the current level **/
+    private int[] correctSequence;  /** Positions 1-10 for this game, position 0 should be ignored as it may be out of date **/
+    private int roundNumber;        /** Current round number to be passed in through begin() **/
     private int currentPosition;    /** The active image to be blinking **/
     private boolean blinkTiming;    /** 0-Turn on 1-Turn off and next **/
     private boolean playbackDone;       /** Can be checked to see if the blinking is done **/
@@ -28,9 +29,11 @@ public class ImageBlinker extends CountDownTimer {
         currentPosition = 0;    /** Set first position in sequence **/
     }
 
-    public void begin() {
+    public void begin(int rNumber) {
         //android.os.SystemClock.sleep(5000);    /** Wait for two seconds before running **/
+
         playbackDone = false;
+        roundNumber = rNumber;
         start();
     }
 
@@ -44,7 +47,7 @@ public class ImageBlinker extends CountDownTimer {
         if (currentPosition == 0) {
             currentPosition++;
         } else {
-            if (currentPosition <= correctSequence[0]) {
+            if (currentPosition <= roundNumber) {
 
                 if (blinkTiming) {
                     /** turn off and set next **/
@@ -58,10 +61,11 @@ public class ImageBlinker extends CountDownTimer {
                 }
 
                 blinkTiming = !blinkTiming; /** Flip boolean **/
+            } else {
+                onFinish();
+                super.cancel();
             }
         }
-
-
 
     }
 
@@ -70,6 +74,13 @@ public class ImageBlinker extends CountDownTimer {
     public void onFinish() {
         //myImage.setImageResource(R.drawable.ic_plus_button);
         playbackDone = true;
+        currentPosition = 0;
+    }
+
+
+    public boolean isPlaybackDone () {
+        return playbackDone;
+
     }
 
 
