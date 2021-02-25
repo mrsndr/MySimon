@@ -11,7 +11,7 @@ import android.widget.Toast;
 public class FourLightsGame extends AppCompatActivity {
 
 
-    private int gameState;  /** 0-init 1-Watch 2-Play 3-End **/
+    private int gameState;  /** 0-init 1-Watch and Play 2-End **/
     // private Integer currentLevel;   /** Used to communicate how many blinks or button presses to do/expect **/
     private TextView stateDisplay;  /** This is the text view that tells the user what is happening **/
     private ImageView B1, B2, B3, B4;   /** quick names for the buttons **/
@@ -54,7 +54,7 @@ public class FourLightsGame extends AppCompatActivity {
         stateDisplay.setText("Tap to start");
 
         /** Set the correct sequence **/
-        correctSequence[0] = 2;
+        correctSequence[0] = 1;
         correctSequence[1] = 1;
         correctSequence[2] = 2;
         correctSequence[3] = 3;
@@ -67,7 +67,7 @@ public class FourLightsGame extends AppCompatActivity {
         correctSequence[10] = 3;
 
 
-        iconBlinker = new ImageBlinker(((10 * 2000) + 2000),1000, correctSequence,imageViews);
+        iconBlinker = new ImageBlinker(((10 * 1000) + 1000),500, correctSequence,imageViews,stateDisplay);
     }
 
     //Ready to play
@@ -79,24 +79,13 @@ public class FourLightsGame extends AppCompatActivity {
         switch (gameState) {
             case 0:
                 stateDisplay.setText("Watch");
-                //android.os.SystemClock.sleep(2000);    /** Wait for two seconds before running **/
-                //myDelayTimer shortWait = new myDelayTimer(2000,1000);
-                    //shortWait.start();
-                    //SystemClock.sleep(2000);
-                //ImageBlinker testBlinker = new ImageBlinker(((correctSequence[0] * 2000) + 2000),1000, correctSequence,imageViews);
-                correctSequence[0] = 6;
-
-                    iconBlinker.begin(correctSequence[0]);  /** sending a new round number through correctSequence[0] **/
-
-                gameState = 2;  /** Set the game to state 2 for the player's turn **/
+                iconBlinker.begin(correctSequence[0]);  /** sending a new round number through correctSequence[0] **/
+                gameState = 1;  /** Set the game to state 1 now that the round has started **/
                 break;
             case 1:
-                /* In a future version maybe this will record all button presses until the round is over */
+                /* In a future version maybe this will restart? */
                 break;
             case 2:
-                /* Maybe for a reset button in game? */
-                break;
-            case 3:
                 /** Play Again **/
                 setModeToReady();
 
@@ -110,12 +99,28 @@ public class FourLightsGame extends AppCompatActivity {
 
 
     public void button1Click (View view) {
-
-        if ((gameState == 2) && iconBlinker.isPlaybackDone()) {
+        if ((gameState == 1) && iconBlinker.isPlaybackDone()) {
             playerEntry += "1";
             checkPlayerEntry();
         }
-
+    }
+    public void button2Click (View view) {
+        if ((gameState == 1) && iconBlinker.isPlaybackDone()) {
+            playerEntry += "2";
+            checkPlayerEntry();
+        }
+    }
+    public void button3Click (View view) {
+        if ((gameState == 1) && iconBlinker.isPlaybackDone()) {
+            playerEntry += "3";
+            checkPlayerEntry();
+        }
+    }
+    public void button4Click (View view) {
+        if ((gameState == 1) && iconBlinker.isPlaybackDone()) {
+            playerEntry += "4";
+            checkPlayerEntry();
+        }
     }
 
     private void checkPlayerEntry () {
@@ -124,7 +129,31 @@ public class FourLightsGame extends AppCompatActivity {
          * If the user completes the entry, the next sequence will be started.
          * If all ten rounds are done correctly, they win. **/
 
-        Toast.makeText(getApplicationContext(), playerEntry,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), String.valueOf(playerEntry.charAt(correctSequence[0]-1)),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Full string " + playerEntry,Toast.LENGTH_SHORT).show();
+
+
+
+        if (correctSequence[0] == 10) {
+            /** Winner **/
+            gameState = 2;  /** End of Game **/
+            stateDisplay.setText("Play Again?");
+
+        } else {
+            if (playerEntry.length() == correctSequence[0]) {
+                /** Round successfully finished **/
+                correctSequence[0] += 1;    /** Next level **/
+
+                stateDisplay.setText("Watch");
+                iconBlinker.begin(correctSequence[0]);  /** sending a new round number through correctSequence[0] **/
+
+            } else {
+                /** Round not done yet **/
+
+            }
+        }
+
+
 
     }
 
