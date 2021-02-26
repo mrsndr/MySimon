@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.Random;
+
 public class FourLightsGame extends AppCompatActivity {
 
 
@@ -19,7 +22,7 @@ public class FourLightsGame extends AppCompatActivity {
     private ImageView[] imageViews; /** This will be all the buttons in a passable array **/
     private int[] correctSequence;  /** This will be the sequence that the game displays and expects from the player
                                         The first position [0] will be the level number **/
-    private String playerEntry = "";     /** This will record each button played by the player for each round **/
+    private String playerEntry;     /** This will record each button played by the player for each round **/
 
     private ImageBlinker iconBlinker;
 
@@ -41,55 +44,68 @@ public class FourLightsGame extends AppCompatActivity {
          stateDisplay = findViewById(R.id.statetextView);
 
         /** Set the mode to initialization **/
-        setModeToReady();
-
-
-
-    }
-
-
-    private void setModeToReady () {
-        /** Call this to reset for next round **/
         gameState = 0;
         stateDisplay.setText("Tap to start");
 
-        /** Set the correct sequence **/
-        correctSequence[0] = 1;
-        correctSequence[1] = 1;
-        correctSequence[2] = 2;
-        correctSequence[3] = 3;
-        correctSequence[4] = 4;
-        correctSequence[5] = 2;
-        correctSequence[6] = 3;
-        correctSequence[7] = 4;
-        correctSequence[8] = 2;
-        correctSequence[9] = 4;
-        correctSequence[10] = 3;
-
-
-        iconBlinker = new ImageBlinker(((10 * 1000) + 1000),500, correctSequence,imageViews,stateDisplay);
+        newRound();
     }
 
-    //Ready to play
+
+    private void newRound () {
+        /** Call this to reset for next round **/
+
+
+        /** Set the starting round number to one **/
+            correctSequence[0] = 1;
+
+        /** Set the correct play sequence for new round **/
+
+        /*for (int i = 1; i <= randomishNumber(10,20); i++) {
+            int throwAway = randomishNumber(1,4);
+        }*/
+
+        for (int i = 1; i <= 10; i++) {
+            correctSequence[i] = randomishNumber(1,4);
+        }
+
+            
+        /* Manual for testing
+            correctSequence[1] = 1;
+            correctSequence[2] = 2;
+            correctSequence[3] = 3;
+            correctSequence[4] = 4;
+            correctSequence[5] = 2;
+            correctSequence[6] = 3;
+            correctSequence[7] = 4;
+            correctSequence[8] = 2;
+            correctSequence[9] = 4;
+            correctSequence[10] = 3;
+         */
+
+        iconBlinker = new ImageBlinker(((10 * 1000) + 1000),500, correctSequence,imageViews,stateDisplay);
+
+        playerEntry = ""; /** initialize the player entry string **/
+    }
 
 
 
     public void stateTextClick (View view) {
 
         switch (gameState) {
+            case 2:
+                /** Play Again **/
+                newRound();
             case 0:
                 stateDisplay.setText("Watch");
                 iconBlinker.begin(correctSequence[0]);  /** sending a new round number through correctSequence[0] **/
                 gameState = 1;  /** Set the game to state 1 now that the round has started **/
                 break;
             case 1:
-                /* In a future version maybe this will restart? */
+                /** For testing only, comment each out before deploying **/
+                //Toast.makeText(getApplicationContext(), Arrays.toString(correctSequence), Toast.LENGTH_SHORT).show();   // Print the winning string on screen (test)
+                //Toast.makeText(getApplicationContext(), String.valueOf(randomishNumber(1,4)), Toast.LENGTH_SHORT).show();   // Print a randomish number to screen (test)
                 break;
-            case 2:
-                /** Play Again **/
-                setModeToReady();
 
-                break;
             default:
 
         }
@@ -132,8 +148,6 @@ public class FourLightsGame extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), String.valueOf(playerEntry.charAt(correctSequence[0]-1)),Toast.LENGTH_SHORT).show();
         //Toast.makeText(getApplicationContext(), "Full string " + playerEntry,Toast.LENGTH_SHORT).show();
 
-
-
         if (correctSequence[0] == 10) {
             /** Winner **/
             gameState = 2;  /** End of Game **/
@@ -155,6 +169,24 @@ public class FourLightsGame extends AppCompatActivity {
 
 
 
+    }
+
+
+
+
+
+
+
+    private int randomishNumber (int min, int max) {
+        /** Takes two arguments for the low and high to give a some what random number inclusive
+         * Got help from stack overflow on this one
+         * https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range/21049922
+         */
+        final int randishNumber = new Random().nextInt((max - min) + 1) + min;
+
+
+
+        return randishNumber;
     }
 
 
