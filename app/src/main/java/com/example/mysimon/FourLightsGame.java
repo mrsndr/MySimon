@@ -68,20 +68,6 @@ public class FourLightsGame extends AppCompatActivity {
             correctSequence[i] = randomishNumber(1,4);
         }
 
-            
-        /* Manual for testing
-            correctSequence[1] = 1;
-            correctSequence[2] = 2;
-            correctSequence[3] = 3;
-            correctSequence[4] = 4;
-            correctSequence[5] = 2;
-            correctSequence[6] = 3;
-            correctSequence[7] = 4;
-            correctSequence[8] = 2;
-            correctSequence[9] = 4;
-            correctSequence[10] = 3;
-         */
-
         iconBlinker = new ImageBlinker(((10 * 1000) + 1000),500, correctSequence,imageViews,stateDisplay);
 
         playerEntry = ""; /** initialize the player entry string **/
