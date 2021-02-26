@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class FourLightsGame extends AppCompatActivity {
@@ -26,6 +25,8 @@ public class FourLightsGame extends AppCompatActivity {
     private String playerEntry;     /** This will record each button played by the player for each round **/
 
     private ImageBlinker iconBlinker;
+    private correctPlayBlinker playCorrectMove;
+    private incorrectPlayBlinker playWrongMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class FourLightsGame extends AppCompatActivity {
 
         /** create the blinker that will be used for the game **/
         iconBlinker = new ImageBlinker(((10 * 1000) + 1000),500, correctSequence,imageViews,stateDisplay);
+        playCorrectMove = new correctPlayBlinker(75,75);
+        playWrongMove = new incorrectPlayBlinker(2000,2000);
 
         playerEntry = "";   /** Initialize the player entry string **/
         inRoundClickNumber = 1; /** Initialize the in round click counter **/
@@ -129,46 +132,43 @@ public class FourLightsGame extends AppCompatActivity {
 
         /** Oof, got help from beginners book on this formula
          * https://beginnersbook.com/2019/04/java-char-to-int-conversion/
-         * This gets the value of the last play from the string then compares that to the current correct play for the round
+         * This gets the value of the last play from the string then compares that to the current correct play for the click in the round
          */
-
-
             int playerPlayed = (Integer.parseInt(String.valueOf(playerEntry.charAt(inRoundClickNumber - 1))));
             int playerShouldHavePlayed = correctSequence[inRoundClickNumber];
 
         if ( playerPlayed == playerShouldHavePlayed ) {
             /** Correct play **/
+            playCorrectMove.begin(imageViews[playerPlayed]);
                 if (inRoundClickNumber == correctSequence[0]) {
                     /** Round done **/
-
-                    helpMeString("length " + String.valueOf(playerEntry.length()));
-
-
-
+                    //helpMeString("length " + String.valueOf(playerEntry.length()));
                     if (correctSequence[0] == 10) {
                         /** Successfully completed 10 rounds, Winner! **/
                         gameState = 2;  /** End of Game **/
-                        stateDisplay.setText("You Win! Play Again?");     helpMeString("4");
-                        // Some sort of win thing here
+                        stateDisplay.setText("You Win! Play Again?");     //helpMeString("4");
+                        // Some sort of win thing here maybe
 
                     } else {
                         /** Start the next round **/
                         correctSequence[0] += 1;    /** Add to correctSequence for next level number **/
                         inRoundClickNumber = 1;     /** Reset the round click number counter **/
                         playerEntry = "";           /** Reset the player entry tracker **/
-                        stateDisplay.setText("Watch");   helpMeString("3");
+                        stateDisplay.setText("Watch");   //helpMeString("3");
                         iconBlinker.begin(correctSequence[0]);  /** Sending a new round number through correctSequence[0] **/
                     }
+
                 } else {
                     /** Ongoing round, keep going **/
-                    inRoundClickNumber ++;  helpMeString("2");
+                    inRoundClickNumber ++;  //helpMeString("2");
                 }
 
         } else {
             /** Incorrect play **/
             gameState = 2;  /** End of Game **/
-            stateDisplay.setText("You Lost Play Again?"); helpMeString("1");
-            // Loser routine
+            stateDisplay.setText("You Lost Play Again?"); //helpMeString("1");
+            playWrongMove.begin(imageViews[playerPlayed]);
+            // Loser routine maybe
 
         }
 
@@ -176,6 +176,7 @@ public class FourLightsGame extends AppCompatActivity {
 
 
     }
+
 
 
     private int randomishNumber (int min, int max) {
