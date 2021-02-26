@@ -3,4 +3,9 @@
     <string name="header_title">Simple Simon</string>
     <string name="start_button">Press To Start</string>
     <string name="app_author">By Jason Sander WN2021</string>
+    <string name="flg_gameStart">Tap Here To Start</string>
+    <string name="flg_winner">You Win! Play Again?</string>
+    <string name="flg_loser">Game Over, Play Again?</string>
+    <string name="flg_playbackTurn">Watch</string>
+    <string name="flg_playerTurn">Play</string>
 </resources>

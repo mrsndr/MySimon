@@ -47,7 +47,7 @@ public class FourLightsGame extends AppCompatActivity {
 
         /** Set the mode to initialization **/
         gameState = 0;
-        stateDisplay.setText("Tap to start");
+        stateDisplay.setText(getString(R.string.flg_gameStart));
 
         newRound();
     }
@@ -146,7 +146,7 @@ public class FourLightsGame extends AppCompatActivity {
                     if (correctSequence[0] == 10) {
                         /** Successfully completed 10 rounds, Winner! **/
                         gameState = 2;  /** End of Game **/
-                        stateDisplay.setText("You Win! Play Again?");     //helpMeString("4");
+                        stateDisplay.setText(getString(R.string.flg_winner));     //helpMeString("4");
                         // Some sort of win thing here maybe
 
                     } else {
@@ -154,7 +154,7 @@ public class FourLightsGame extends AppCompatActivity {
                         correctSequence[0] += 1;    /** Add to correctSequence for next level number **/
                         inRoundClickNumber = 1;     /** Reset the round click number counter **/
                         playerEntry = "";           /** Reset the player entry tracker **/
-                        stateDisplay.setText("Watch");   //helpMeString("3");
+                        stateDisplay.setText(getString(R.string.flg_playbackTurn));   //helpMeString("3");
                         iconBlinker.begin(correctSequence[0]);  /** Sending a new round number through correctSequence[0] **/
                     }
 
@@ -166,7 +166,7 @@ public class FourLightsGame extends AppCompatActivity {
         } else {
             /** Incorrect play **/
             gameState = 2;  /** End of Game **/
-            stateDisplay.setText("You Lost Play Again?"); //helpMeString("1");
+            stateDisplay.setText(getString(R.string.flg_loser)); //helpMeString("1");
             playWrongMove.begin(imageViews[playerPlayed]);
             // Loser routine maybe
 

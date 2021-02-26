@@ -80,7 +80,7 @@ public class ImageBlinker extends CountDownTimer {
 
         playbackDone = true;
         currentPosition = 0;
-        stateDisplay.setText("Play");
+        stateDisplay.setText(R.string.flg_playerTurn);
     }
 
 
